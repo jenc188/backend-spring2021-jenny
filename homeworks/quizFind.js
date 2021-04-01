@@ -6,19 +6,18 @@
 // console.log(array1.findIndex(quizFind));
 
 //part1 
-// this was working the other day but I don't what I did that caused it to not work later
+
 function quizFind(element, num){
     for(let i=0; i<element.length; i++){
-     if (element[i] === (parseInt(num))){
-           return i;
-       } else {
-       return -1;
-       }; 
-    };   
+      if (element[i] === parseInt(num)){
+            return `the location is ${i}`;
+        }
+    }   
+    return -1;
 }
 console.log(quizFind([3,4,7],7));
-console.log(quizFind([1,1,0,3,5],6));
-console.log(quizFind([1,1,0,3,5],6));
+console.log(quizFind([1,1,0,3,5],5));
+console.log(quizFind([1,2,0,3,5],7));
 
 
 //part2

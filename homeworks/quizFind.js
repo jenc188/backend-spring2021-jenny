@@ -13,7 +13,7 @@ function quizFind(element, num){
            return i;
        } else {
        return -1;
-        };
+       }; 
     };   
 }
 console.log(quizFind([3,4,7],7));
@@ -30,7 +30,7 @@ function quizLotto(){
         randomNum=(Math.floor((Math.random() * 59) + 1));
         if(arrayLotto.indexOf(randomNum) == -1){ 
         arrayLotto.push(randomNum);
-        console.log(`Regular umber: ${randomNum}`);
+        console.log(`Regular number: ${randomNum}`);
         };
     };
     arrayLotto.sort(function(a,b){

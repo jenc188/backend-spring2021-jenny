@@ -16,12 +16,13 @@ let contents = arguments[4];
 let filename2 = contents;
 let mergedFilename = arguments[5];
 
+//Reassign contents variable as an empty array element holds the value undefined
 if(contents === undefined) {
     contents = "";
 }
 
 // Check if the argument was empty.
-if (filename === undefined){
+if (action === undefined){
 
     // if it was empty, provide a message that is for a new person.
     console.log(`
@@ -32,6 +33,7 @@ Example:
     Write a new File:        node filereader.js write newFile.txt "Text to write"
     Update an existing file: node filereader.js update myFile.txt "Text to add"
     Merge two existing files: node filereader.js merge file1.txt file2.txt mergedfile.txt
+    Copy an existing file:    node filereader.js copy  file1.txt file2.txt
     Delete an existing file: node filereader.js delete myFile.txt
 `);  
 
@@ -55,9 +57,11 @@ if (action === "read") {
 
 } else if (action === "write") {
 
+    // Check if the file exists...
     if(fs.existsSync(filename)) {
         console.log("Sorry but this file already exists! Please use a different file name.");
     } else {
+        // If it doesn't exist, we can create it safely.
         fs.writeFileSync(filename, contents, "utf-8");
         console.log("Finished writing the file: " + filename);
     }
@@ -73,12 +77,17 @@ if (action === "read") {
     }
 
 } else if (action === "delete") {
+
     if(fs.existsSync(filename)) {
-        fs.unlinkSync(filename, "utf-8");
-        console.log("File deleted!")
+        if (contents === "true") {
+            fs.unlinkSync(filename);
+            console.log(filename + "File successfully deleted!");
+        } else {
+            console.log("Are you sure want to delete this file? Keep in mind this file will be PERMENENTLY deleted and not moved to the Recycle Bin or Trash. Please run the command again with the word true as the final argument.");
+        }  
     } else {
-        console.log("Sorry but we can't find the file");
-    }    
+        console.log("There is no file with that name, please double check your argument.");
+    } 
 
 } else if (action === "merge") {
 
@@ -94,10 +103,38 @@ if (action === "read") {
             fs.writeFileSync(mergedFilename, mergedContents, "utf-8");
             console.log("Finished merging your files!");
         }
-     } else {
-         console.log("Sorry but one of your files that you chose does not exist! Please double check your spelling.");
-     }
+
+    } else {
+        console.log("Sorry but one of your files that you chose does not exist! Please double check your spelling.");
+    }
+} else if (action === "copy") {
+     // node filereader.js copy originalFile newFile
+    if(fs.existsSync(filename)){
+        if(fs.existsSync(filename2)){
+        console.log("There is this file name already. Please use another file name.");
+        
+        } else {
+            fs.copyFileSync(filename, filename2)
+            console.log("Finished copying your files!");
+        }
+
+    } else {
+        console.log("Sorry but the file that you chose does not exist! Please double check your spelling.");
+    }
+
+}  else {
+    console.log(`There is no action by that name. Please double check your spelling. The available actions for this script are: read, write, update delete, merge, and copy.
+    
+Example:
+    Read an existing File:    node filereader.js read myFile.txt
+    Write a new File:         node filereader.js write newFile.txt "Text to write"
+    Update an existing file:  node filereader.js update myFile.txt "Text to add"
+    Merge two existing files: node filereader.js merge file1.txt file2.txt mergedfile.txt
+    Copy an existing file:    node filereader.js copy  file1.txt file2.txt
+    Delete an existing file:  node filereader.js delete myFile.txt true
+    `);
 }
+
 
 
 

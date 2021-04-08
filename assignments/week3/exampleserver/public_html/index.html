@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>Welcome to my Website!</h1>
-    <p><a href="http://localhost:3000/secretwebsite">Click here to go to my funny website.</a></p>
+    <p><a href="/funnywebsite">Click here to go to my funny website.</a></p>
 
     <form>
         <label for="number">Type a number in</label>
@@ -18,15 +18,24 @@
         <button>Send the Number!</button>
     </form>
 
+    <p id="results"></p>
+
     <script>
+        const baseUrl = "http://localhost:3000";
 
         $(function () {
 
             $("button").click(function (event) {
                 event.preventDefault();
 
+                let objectToSend = {
+                    message: "hello"
+                };
+
                 // jQuery POST Request
-                $.post("http://localhost:3000/submitNumber", "hello", function (response) {
+                $.post(baseUrl + "/submitNumber", objectToSend, function (response) {
+                    
+                    $("#results").text(response)
                     console.log("The server has responded!");
                 });
             });

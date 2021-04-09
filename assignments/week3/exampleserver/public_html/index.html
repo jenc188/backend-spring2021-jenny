@@ -10,10 +10,11 @@
 </head>
 <body>
     <h1>Welcome to my Website!</h1>
-    <p><a href="/funnywebsite">Click here to go to my funny website.</a></p>
+    <p><a href="/funnywebsite">Click here to go to my funny page.</a></p>
+    <p>Feeling lucky today? Guess a number</p>
 
     <form>
-        <label for="number">Type a number in</label>
+        <label for="number">Type a number between 1 and 10:</label>
         <input type="number" id="number" />
         <button>Send the Number!</button>
     </form>
@@ -21,22 +22,51 @@
     <p id="results"></p>
 
     <script>
+
+         // let this variable control the server URL
         const baseUrl = "http://localhost:3000";
 
+        // New way of jQuery waiting for HTML.
         $(function () {
 
+            // Listen for a click on the buttons...
             $("button").click(function (event) {
+
+                //... stop the normal action of the button...
                 event.preventDefault();
 
+                // Grab the number from the input box.
+                let number = $("#number").val();
+
+                // convert the string to a number
+                number = parseInt(number);
+
+                //check if it could be converted or not.
+                if (Number.isNaN(number)) {
+                    $("#results").text("Sorry but that is not a valid number! Please try again.");
+
+                    return;
+                }
+
+                //Build object to send to the back-end.
                 let objectToSend = {
-                    message: "hello"
+                    message: "hello",
+                    numberGuess: number,
+                    someObject: {
+                        someValue: 10
+                    },
+                    thisShouldBeTrue: true
                 };
 
-                // jQuery POST Request
+                console.log(objectToSend);
+                // jQuery POST Request.Arguments: location, date, callback function
                 $.post(baseUrl + "/submitNumber", objectToSend, function (response) {
                     
-                    $("#results").text(response)
-                    console.log("The server has responded!");
+                    console.log(response);
+
+                    // Grab the data from the response object sent by the back-end and place it in the paragraph element in our HTML.
+                    $("#results").text(response.message);
+                    
                 });
             });
 

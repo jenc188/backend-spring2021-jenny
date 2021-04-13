@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Slabo+27px&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+h1 {
+    font-family: 'Slabo 27px', serif;
+    font-size: 50px;
+    padding: 25px;
+    text-align: center;
+}
+
+div#container {
+    margin: 0 auto;
+    width: 60%;
+}
+
+section#new-task {
+    background-color:#68a1d4;
+    color: #ecf0f1;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+section#new-task h2 {
+    padding: 12px;
+    background-color: #3498db;
+    font-weight: bold;
+}
+
+section#new-task label {
+    padding: 12px;
+    display: inline-block;
+    line-height: 24px;
+}
+
+section#new-task input {
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: inline-block;
+    line-height: 24px;
+}
+
+section#new-task input:nth-child(3) {
+    width: 85%;
+}
+
+section#task-list {
+    height: 500px;
+    background-color:lightblue;
+    
+}
+
+div.task {
+    background-color:#91dbb6;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.task p {
+    display: inline-block;
+}
+
+div.edit-panel {
+    background-color: gainsboro;
+}

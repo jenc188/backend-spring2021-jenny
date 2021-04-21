@@ -33,6 +33,21 @@ function refreshTaskList() {
     <p>${task.text}</p><p>${task.dueDate}</p>
     <button class="delete"><i class="fas fa-trash-alt"></i></button>
     <button class="edit"><i class="far fa-edit"></i></button>
+
+    <div class="edit-panel">
+        <label for="task-text">Task</label>
+        <input type="text" id="task-text" />
+        <br />
+        <label for="priority-1">Priority 1</label>
+        <input type="radio" name="priority" id="priority-1" />
+        <label for="priority-2">Priority 2</label>
+        <input type="radio" name="priority" id="priority-2" />
+        <label for="priority-3">Priority 3</label>
+        <input type="radio" name="priority" id="priority-3" />
+        <br />
+        <label for="due-date">Due Date</label>
+        <input type="date" id="due-date" />
+    </div>
 </div>`;
 
             $("div#tasks").append(html);
@@ -52,24 +67,28 @@ function refreshTaskList() {
             });
         });
 
+        // Write this without using jQuery Toggle, and use 2 functions instead.
         $("button.edit").click(function () {
-            let htmlDrawer = `
-<div class="edit-panel">
-    <label for="task-text">Task</label>
-    <input type="text" id="task-text" />
-    <br />
-    <label for="priority-1">Priority 1</label>
-    <input type="radio" name="priority" id="priority-1" />
-    <label for="priority-2">Priority 2</label>
-    <input type="radio" name="priority" id="priority-2" />
-    <label for="priority-3">Priority 3</label>
-    <input type="radio" name="priority" id="priority-3" />
-    <br />
-    <label for="due-date">Due Date</label>
-    <input type="date" id="due-date" />
-</div>`;
+            let editPanel = $(this).next();
+            let button = $(this);
 
-            $(this).parent().append(htmlDrawer);
+            editPanel.toggle('slow', function () {
+                
+                if (button.children().hasClass("fa-edit")) {
+                    
+                    button.fadeOut(300, function () {
+                        button.html('<i class="far fa-save"></i>');
+                    });
+                    button.fadeIn(300);
+                } else {
+                    //CREATE UPDATE POST REQUEST
+                    button.fadeOut(300, function () {
+                        button.html('<i class="far fa-edit"></i>');
+                    });
+                    button.fadeIn(300);
+                }
+            });
+           
         });
     });
 }

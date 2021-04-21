@@ -150,4 +150,5 @@ div.task > button:hover {
 div.edit-panel {
     background-color: #eba534;
     padding: 12px;
+    display: none;
 }

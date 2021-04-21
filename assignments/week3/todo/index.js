@@ -42,8 +42,6 @@ if (fs.existsSync(taskFileName)) {
    fs.writeFileSync(taskFileName, JSON.stringify(tasks), "utf-8");
 }
 
-console.log(tasks.incompleted);
-
 // Body Parser
 app.use(express.json({strict: false}));
 app.use(express.urlencoded({extended: false}));
@@ -75,7 +73,7 @@ app.post("/get-tasks", function (req, res) {
    
    // Filter out the tasks that have been completed or deleted.
    let incompleteArray = tasks.incompleted.filter(function (task) {
-      console.log(task);
+      
       // If the task has a deleted or completed date, it fails the filter test.
       if (task.isDeleted() || task.isCompleted()) {
          return false;

@@ -91,6 +91,23 @@ app.post("/get-tasks", function (req, res) {
    res.send(responseObject);
 });
 
+app.post("/complete-task", function (req, res) {
+
+   let id = req.body.id;
+
+   // Go through each task in the tasks array and find the one with the matching ID.
+   for (let i = 0; i < tasks.incompleted.length; i++) {
+      if (tasks.incompleted[i].id === id) {
+         // If ID matches them mark the Task Object completed.
+         tasks.incompleted[i].markCompleted();
+         break;
+      }
+   }
+   saveFile();
+   // Just send a message to the front-end.
+   res.send({});
+});
+
 // POST Handler for deleting a single task.
 app.post("/delete-task", function (req, res) {
 
@@ -104,11 +121,27 @@ app.post("/delete-task", function (req, res) {
          break;
       }
    }
-
+   saveFile();
    // Just send a message to the front-end.
    res.send({});
 });
 
+app.post("/update-task", function (req, res) {
+   let id = req.body.id;
+   let updates = req.body;
+
+   for (let i = 0; i < tasks.incompleted.length; i++) {
+      if (id === tasks.incompleted[i].id) {
+         tasks.incompleted[i].setText(updates.text);
+         tasks.incompleted[i].setDueDate(updates.dueDate);
+         tasks.incompleted[i].setPriority(updates.priority);
+      }
+   }
+   
+   saveFile();
+
+   res.send({});
+});
 
 // TODO: Find out a way to delay multiple calls of this function.
 

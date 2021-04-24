@@ -104,6 +104,7 @@ app.post("/complete-task", function (req, res) {
       }
    }
    saveFile();
+   
    // Just send a message to the front-end.
    res.send({});
 });

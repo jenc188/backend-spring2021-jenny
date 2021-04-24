@@ -11,10 +11,10 @@ $(function () {
             dueDate: $("#due-date").val()
         };
 
-        console.log(taskObject);
-
-        $.post(base_URL + "/add-task", taskObject, function (data) {
+        $.post(base_URL + "/add-task", taskObject, function (data) 
+        {
             refreshTaskList();
+            $("#task-text").val("");
         });
     });
 });
@@ -26,7 +26,6 @@ function refreshTaskList() {
 
     $.post(base_URL + "/get-tasks", {}, function(data) {
 
-        console.log(data);
         let tasks = data.incompleted;
 
         tasks.forEach(function (task) {
@@ -79,6 +78,7 @@ function refreshTaskList() {
                 id: button.parent().attr("data-id")
             }
 
+            // The browser builds the URL for me
             $.post("/delete-task", deleteObject, function (data) {
                 button.parent().remove();
             });
@@ -111,8 +111,6 @@ function refreshTaskList() {
                             // Check to make sure parseInt doesn't fail.
                             priority: form.children("input[type=radio]:checked").val()
                         }
-
-                        console.log(object);
 
                         $.post(base_URL + "/update-task", object, function (data) {
                             button.fadeIn(300);

@@ -8,7 +8,7 @@ const databaseConnect = credentials.dbURL;
 // Settings and options for Mongoose connection.
 const options = {
     useNewUrlParser: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
     useUnifiedTopology: true
 };
 
@@ -44,12 +44,11 @@ let ourSchema = new Schema({
 //Mongoose Model, describes where to save documents and how the document should look like using a specific schema.
 let exampleModel = new mongoose.model("example_collections", ourSchema);
 
-// Creating our first Document, we provide and object to fulfill schema requirements.
+// Creating our first Document, we provide and object to fulfill schema requirements. New document
 let firstDocument = new exampleModel({
     food: "Avacado chicken sandwich",
     location: "SOMA"
-    
-    
+      
 });
 
 // Saving our first Document, callback function checking for errors or console logs success.
@@ -62,3 +61,27 @@ firstDocument.save(function (error){
 
 });
 
+//Searches the exampleModel with a specified ID, and updates that document
+exampleModel.findByIdAndUpdate("6083127d557e4005b82c9c53", {location: "SOMA"},function (error, results) {
+    if(error){
+        console.log("Failed to update: " + error);
+    }else{
+        console.log("Successfully updated, here is the old copy: ", results);
+    }
+});
+
+exampleModel.findByIdAndDelete("6083591be7658006d69fb397", function(error, results){
+if(error) {
+        console.log("Failed to delete:" + error);
+    } else {
+        console.log("Successfully deleted the following: "+ results)
+    }
+});
+//can use wildcard to search, put this empty {} and not specific item will receive every documents in that object
+exampleModel.find({food: "Hamburger"}, function (error, results) {
+    if(error) {
+        console.log("Failed to find: " + error)
+    } else {
+        console.log("Found the following: " + results);
+    }
+});

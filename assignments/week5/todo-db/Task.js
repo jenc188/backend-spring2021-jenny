@@ -1,40 +1,5 @@
-const md5 = require("md5");
-
 // Define Task class
 class Task {
-    constructor(text, priority, dueDate) {
-        this.setText(text);
-
-        // Assign a dueDate, and test if the provided value is valid, if not, create a new Date object instead.
-        let dateResults = this.setDueDate(dueDate);
-        if (dateResults === 1) {
-            this.dueDate = new Date();
-        }
-
-        // Create a Date object for when the Task object was created.
-        this.dateCreated = new Date();
-
-        // Generate a MD5 hash to identify this Task Object.
-        this.id = md5(this.text + this.dateCreated.toString());
-
-        // Test if priority has a value, if it doesn't, assign it priority 1...
-        if (priority === undefined) {
-            this.priority = 1;
-        } else {
-            //... Otherwise send it to the setPriority method.
-            let results = this.setPriority(priority);
-
-            // If setPriority() fails, set priority to 1.
-            if (results === 1) {
-                this.priority = 1;
-            }
-        }
-
-        // set completed and deleted date to null when the Task is NEW.
-        this.dateCompleted = null;
-        this.dateDeleted = null;
-    }
-
     // Getter/Setter for the Task text.
     getText() {return this.text;}
     setText(text) {
@@ -43,13 +8,13 @@ class Task {
         } else {
             this.text = "INVALID VALUE";
         }
-
     }
 
     // Setter/Getter for Task due date.
     getDueDate() {return this.dueDate;}
     setDueDate(dueDate) {
         // Test the provided due date string with Regular Expressions.
+         // Tests toString Value:  ^[a-zA-Z]{3} [a-zA-Z]{3} [0-9]{2} [0-9]{4} [0-2][0-9]:[0-9]{2}:[0-9]{2} [A-Z]{3}(-|\+)[0-9]{4} \(.*\)$
         let datePattern = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
         // Test the string with our regular expression pattern.
         let validDate = datePattern.test(dueDate);
@@ -80,6 +45,7 @@ class Task {
             return 0;
         } else {
             // If it fails the test, return a 1.
+            this.dueDate = new Date();
             return 1;
         }
     }
@@ -122,27 +88,6 @@ class Task {
         }
     }
 
-    jsonConvert(object) {
-        this.text = object.text;
-        this.id = object.id;
-        this.priority = object.priority;
-        this.dueDate = new Date(object.dueDate);
-        this.dateCreated = new Date(object.dateCreated);
-
-        if (typeof object.dateCompleted === "string") {
-            this.dateCompleted = new Date(object.dateCompleted);
-        } else {
-            this.dateCompleted === null;
-        }
-
-        if (typeof object.dateDeleted === "string") {
-            this.dateDeleted = new Date(object.dateDeleted);
-        } else {
-            this.dateDeleted === null;
-        }
-
-        return this;
-    }
 }
 // Allow other files to use the Task class.
 module.exports = {

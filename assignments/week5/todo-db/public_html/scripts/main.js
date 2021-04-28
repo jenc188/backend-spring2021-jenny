@@ -11,10 +11,8 @@ $(function () {
             dueDate: $("#due-date").val()
         };
 
-        $.post(base_URL + "/add-task", taskObject, function (data) 
-        {
+        $.post(base_URL + "/add-task", taskObject, function (data) {
             refreshTaskList();
-            $("#task-text").val("");
         });
     });
 });
@@ -26,13 +24,17 @@ function refreshTaskList() {
 
     $.post(base_URL + "/get-tasks", {}, function(data) {
 
-        let tasks = [];
+        let tasks = data.incompleted;
 
         tasks.forEach(function (task) {
+
+            task.dueDate = (new Date(task.dueDate)).toISOString();
+            console.log(task.dueDate);
+
             let datePattern = /^[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 
             let html = `
-<div class="task" data-id=${task.id}>
+<div class="task" data-id=${task._id}>
     <button class="complete"><i class="fas fa-check"></i></button>
     <p>${task.text}</p><p>${task.dueDate}</p>
     <button class="delete"><i class="fas fa-trash-alt"></i></button>
@@ -43,11 +45,11 @@ function refreshTaskList() {
         <input type="text" value="${task.text}"/>
         <br />
         <label for="priority-1">Priority 1</label>
-        <input type="radio" name="priority${task.id}" value="1" id="priority-1" ${(task.priority === 1) ? `checked="checked"` : ``}/>
+        <input type="radio" name="priority${task._id}" value="1" id="priority-1" ${(task.priority === 1) ? `checked="checked"` : ``}/>
         <label for="priority-2">Priority 2</label>
-        <input type="radio" name="priority${task.id}" value="2" id="priority-2" ${(task.priority === 2) ? `checked="checked"` : ``}/>
+        <input type="radio" name="priority${task._id}" value="2" id="priority-2" ${(task.priority === 2) ? `checked="checked"` : ``}/>
         <label for="priority-3">Priority 3</label>
-        <input type="radio" name="priority${task.id}" value="3" id="priority-3" ${(task.priority === 3) ? `checked="checked"` : ``}/>
+        <input type="radio" name="priority${task._id}" value="3" id="priority-3" ${(task.priority === 3) ? `checked="checked"` : ``}/>
         <br />
         <label for="due-date">Due Date</label>
         <input type="date" id="due-date" value="${task.dueDate.match(datePattern)[0]}" />

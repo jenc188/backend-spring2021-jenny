@@ -44,22 +44,23 @@ app.use(express.urlencoded({extended: false}));
 
 // Routes
 
-   // The default route for when a visitor requests the URL without a file path. 
-   app.use("/", express.static("public_html/"));
+// The default route for when a visitor requests the URL without a file path. 
+app.use("/", express.static("public_html/"));
 
-   // POST Handler for adding a new task.
-   app.post("/add-task", function (req, res) {
-      let taskData = req.body;
-      
+// POST Handler for adding a new task.
+app.post("/add-task", function (req, res) {
+   let taskData = req.body;
+   
    let newTask = new TodoModel({
-      text: taskData.text,
-      priority: taskData.priority,
-      dueDate: taskData.dueDate
-   });
-
-   console.log(newTask.isDeleted());
-
-   newTask.save(function(error) {
+      dateCompleted: null,
+      dateDeleted: null,
+      dateCreated: new Date()
+   });   
+      
+   newTask.setText(taskData.text);
+   newTask.setPriority(taskData.priority);
+   newTask.setDueDate(taskData.dueDate)
+   newTask.save(function (error) {
       if (error) {
          console.lg("Something happened in MongoDB for saving: " + error);
          res.sendStatus(500);
@@ -68,21 +69,29 @@ app.use(express.urlencoded({extended: false}));
          res.send({error: null});
       }
    });
-
 });
 
 // POST Handler for getting all tasks.
 app.post("/get-tasks", function (req, res) {
    
-   
+// Build an object holding all the Task objects that passed the filter test.
+   TodoModel.find({dateDeleted: null, dateCompleted: null}, function (error, results) {
 
-   // Build an object holding all the Task objects that passed the filter test.
-   let responseObject = {
-      
-   };
+      if (error) {
+         console.log("Failed to search for all documents: " + error);
+         res.sendStatus(500);
+      } else {
+         // Build an object holding all the Task objects that passed the filter test.
+         console.log(results);
+         let responseObject = {
+            incompleted: results
+         };
 
-   // Send the resulting object back to the front-end.
-   res.send(responseObject);
+         // Send the resulting object back to the front-end.
+         res.send(responseObject);
+      }
+   });
+
 });
 
 app.post("/complete-task", function (req, res) {

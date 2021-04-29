@@ -56,6 +56,7 @@ class Task {
         // Try to parse into number, if it fails, return a 1.
         priority = parseInt(priority);
         if (Number.isNaN(priority)) {
+            this.priority = 1;
             return 1;
         } else {
             this.priority = priority;

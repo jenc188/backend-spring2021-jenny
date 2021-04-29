@@ -108,7 +108,7 @@ function refreshTaskList() {
 
                         let object = {
                             text: form.children("input[type=text]").val(),
-                            id: form.parent().attr("data-id"),
+                            _id: form.parent().attr("data-id"),
                             dueDate: form.children("input[type=date]").val(),
                             // Check to make sure parseInt doesn't fail.
                             priority: form.children("input[type=radio]:checked").val()

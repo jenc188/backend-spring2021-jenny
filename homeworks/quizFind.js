@@ -16,7 +16,7 @@ function quizFind(element, num){
     return -1;
 }
 console.log(quizFind([3,4,7],7));
-console.log(quizFind([1,1,0,3,5],5));
+console.log(quizFind([1,1,0,3,5],5.0));
 console.log(quizFind([1,2,0,3,5],7));
 
 

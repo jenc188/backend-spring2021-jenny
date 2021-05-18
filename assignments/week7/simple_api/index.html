@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check the weather for today</title>
+    <link rel="stylesheet" href="index.css">
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous">
+    </script>
+    
+</head>
+<body>
+    <div id="main">
+        <h1>What's the weather today?</h1><br>
+        
+        <label>Enter your city:</label>
+        <input type="text" id="city" />
+        <button id="submit">Submit</button>
+        <p id="results"></p>
+    
+        <script>
+            $(() => {
+                console.log("Hi there");
+                $("#submit").click(() => {
+                    const city = $("#city").val();
+                    const key = 
+
+                    const url =`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
+
+                    $.get(url, function (data) {
+                        console.log(data);
+
+                        $('#results').html("The current temperature in " + city + " is " + data.main.temp + " Kelvin.");
+                    });
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
